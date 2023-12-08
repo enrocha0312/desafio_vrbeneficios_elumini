@@ -19,4 +19,6 @@ public class Cartao {
     private String numeroCartao;
     @NotEmpty
     private String senha;
+    @NotEmpty
+    private Double saldo;
 }
