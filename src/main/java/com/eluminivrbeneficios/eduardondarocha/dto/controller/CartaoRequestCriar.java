@@ -4,12 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class CartaoResponse {
-    private Integer id;
+@AllArgsConstructor
+@NoArgsConstructor
+public class CartaoRequestCriar {
     private String numeroCartao;
     private String senha;
-    private Double valor;
 }

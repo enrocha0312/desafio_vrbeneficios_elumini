@@ -18,8 +18,8 @@ public class CartaoService {
         return cartaoRepository.save(cartao);
     }
 
-    public Double retornarSaldoDeCartao(Integer id){
-        Optional<Cartao> cartao = cartaoRepository.findById(id);
+    public Double retornarSaldoDeCartaoPorNumero(String numCartao){
+        Optional<Cartao> cartao = cartaoRepository.findByNumeroCartao(numCartao);
         return cartao.get().getSaldo();
     }
 }
