@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CartaoRequestCriar {
+public class CartaoRequest {
     private String numeroCartao;
     private String senha;
 }
