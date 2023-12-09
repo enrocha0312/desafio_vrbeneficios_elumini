@@ -2,6 +2,7 @@ package com.eluminivrbeneficios.eduardondarocha.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,6 @@ public class Cartao {
     private String numeroCartao;
     @NotEmpty
     private String senha;
-    @NotEmpty
+    @NotNull
     private Double saldo;
 }
