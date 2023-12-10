@@ -48,7 +48,7 @@ public class CartaoService {
         optionalCartao.orElseThrow(() -> new CartaoNaoEncontradoException(transacao.getNumeroCartao()));
         optionalCartao
                 .stream()
-                .filter(c -> c.getSenha().equals(transacao.getNumeroCartao()))
+                .filter(c -> c.getSenha().equals(transacao.getSenha()))
                 .findFirst()
                 .orElseThrow(()-> new SenhaInvalidaException());
         optionalCartao

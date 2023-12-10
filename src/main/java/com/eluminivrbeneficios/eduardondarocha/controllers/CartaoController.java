@@ -2,6 +2,7 @@ package com.eluminivrbeneficios.eduardondarocha.controllers;
 
 import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoRequest;
 import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoResponse;
+import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoUpdateSaldo;
 import com.eluminivrbeneficios.eduardondarocha.entities.Cartao;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoJaExistenteException;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoNaoEncontradoException;
@@ -29,7 +30,13 @@ public class CartaoController {
             return new ResponseEntity<>(cartaoResponse, HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-
+    @PutMapping("/{numCartao}")
+    public ResponseEntity<CartaoUpdateSaldo> atualizar (@RequestBody CartaoUpdateSaldo cartaoUpdateSaldo, @PathVariable String numCartao){
+        Cartao cartao = new ModelMapper().map(cartaoUpdateSaldo, Cartao.class);
+        cartao = cartaoService.atualizarCartao(numCartao, cartao);
+        CartaoUpdateSaldo response = new ModelMapper().map(cartao, CartaoUpdateSaldo.class);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
     @GetMapping("/{numCartao}")
     public ResponseEntity<?> retornaSaldo(@PathVariable String numCartao){
         try{

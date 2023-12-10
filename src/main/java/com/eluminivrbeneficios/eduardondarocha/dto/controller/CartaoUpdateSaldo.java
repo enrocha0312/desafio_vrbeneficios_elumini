@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TransacaoRequest implements Serializable {
+public class CartaoUpdateSaldo {
     private String numeroCartao;
     private String senha;
-    private Double valor;
+    private Double saldo;
 }
