@@ -7,6 +7,7 @@ import com.eluminivrbeneficios.eduardondarocha.entities.Cartao;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoJaExistenteException;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoNaoEncontradoException;
 import com.eluminivrbeneficios.eduardondarocha.services.CartaoService;
+import jakarta.persistence.EntityNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,13 @@ public class CartaoController {
     @PutMapping("/{numCartao}")
     public ResponseEntity<CartaoUpdateSaldo> atualizar (@RequestBody CartaoUpdateSaldo cartaoUpdateSaldo, @PathVariable String numCartao){
         Cartao cartao = new ModelMapper().map(cartaoUpdateSaldo, Cartao.class);
-        cartao = cartaoService.atualizarCartao(numCartao, cartao);
-        CartaoUpdateSaldo response = new ModelMapper().map(cartao, CartaoUpdateSaldo.class);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        try {
+            cartao = cartaoService.atualizarCartao(numCartao, cartao);
+            CartaoUpdateSaldo response = new ModelMapper().map(cartao, CartaoUpdateSaldo.class);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }catch (Exception e){
+            return new ResponseEntity<>(CartaoUpdateSaldo.builder().numeroCartao(cartaoUpdateSaldo.getNumeroCartao()).build(), HttpStatus.NOT_FOUND);
+        }
     }
     @GetMapping("/{numCartao}")
     public ResponseEntity<?> retornaSaldo(@PathVariable String numCartao){
