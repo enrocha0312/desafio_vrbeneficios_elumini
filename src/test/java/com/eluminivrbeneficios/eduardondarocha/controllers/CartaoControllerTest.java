@@ -2,7 +2,6 @@ package com.eluminivrbeneficios.eduardondarocha.controllers;
 
 import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoRequest;
 import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoResponse;
-import com.eluminivrbeneficios.eduardondarocha.dto.controller.CartaoUpdateSaldo;
 import com.eluminivrbeneficios.eduardondarocha.entities.Cartao;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoJaExistenteException;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoNaoEncontradoException;
@@ -32,7 +31,6 @@ public class CartaoControllerTest {
     private CartaoResponse cartaoResponse;
     private CartaoRequest cartaoRequest;
     private Cartao cartao;
-    private CartaoUpdateSaldo cartaoUpdateSaldo;
 
     @BeforeEach
     void setUp(){
@@ -40,7 +38,7 @@ public class CartaoControllerTest {
         cartao =  Cartao.builder()
                 .senha(SENHA)
                 .numeroCartao(NUM_CARTAO)
-                .saldo(0.0)
+                .saldo(500.0)
                 .build();
         cartaoRequest = CartaoRequest.builder()
                 .numeroCartao(NUM_CARTAO)
@@ -48,11 +46,6 @@ public class CartaoControllerTest {
                 .build();
         cartaoResponse = CartaoResponse.builder()
                 .numeroCartao(NUM_CARTAO)
-                .senha(SENHA)
-                .build();
-        cartaoUpdateSaldo = CartaoUpdateSaldo.builder()
-                .numeroCartao(NUM_CARTAO)
-                .saldo(100.0)
                 .senha(SENHA)
                 .build();
     }
@@ -76,29 +69,6 @@ public class CartaoControllerTest {
         assertEquals(response.getBody().getNumeroCartao(), NUM_CARTAO);
         assertEquals(response.getBody().getSenha(), SENHA);
     }
-
-    @Test
-    void atualizarFunciona(){
-        when(cartaoService.atualizarCartao(anyString(),any())).thenReturn(cartao);
-        when(mapper.map(any(),any())).thenReturn(cartao).thenReturn(cartaoUpdateSaldo);
-        cartao.setSaldo(cartaoUpdateSaldo.getSaldo());
-        ResponseEntity<CartaoUpdateSaldo> response = cartaoController.atualizar(cartaoUpdateSaldo, NUM_CARTAO);
-        assertEquals( 100.0, response.getBody().getSaldo());
-        assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-    }
-
-    @Test
-    void atualizaNaoAchaCartao(){
-        when(cartaoService.atualizarCartao(anyString(),any())).thenThrow(CartaoNaoEncontradoException.class);
-        when(mapper.map(any(),any())).thenReturn(cartao);
-        cartao.setSaldo(cartaoUpdateSaldo.getSaldo());
-        ResponseEntity<CartaoUpdateSaldo> response = cartaoController.atualizar(cartaoUpdateSaldo, NUM_CARTAO);
-        assertEquals( NUM_CARTAO, response.getBody().getNumeroCartao());
-        assertNotNull(response);
-        assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
-    }
-
     @Test
     void retornaSaldoComSucesso(){
         when(cartaoService.retornarSaldoDeCartaoPorNumero(anyString())).thenReturn(100.0);

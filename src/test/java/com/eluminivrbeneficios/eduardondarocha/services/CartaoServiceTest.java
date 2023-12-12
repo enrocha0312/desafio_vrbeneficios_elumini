@@ -7,7 +7,6 @@ import com.eluminivrbeneficios.eduardondarocha.exceptions.service.CartaoNaoEncon
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.SaldoInsuficienteException;
 import com.eluminivrbeneficios.eduardondarocha.exceptions.service.SenhaInvalidaException;
 import com.eluminivrbeneficios.eduardondarocha.repositories.CartaoRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -37,12 +36,12 @@ public class CartaoServiceTest {
     void setUp(){
         MockitoAnnotations.openMocks(this);
         cartao = Cartao.builder()
-                .saldo(0.0)
+                .saldo(500.0)
                 .numeroCartao(NUM_CARTAO)
                 .senha(SENHA)
                 .build();
         transacao = Transacao.builder()
-                .valor(100.0)
+                .valor(200.0)
                 .numeroCartao(NUM_CARTAO)
                 .senha(SENHA)
                 .build();
@@ -58,7 +57,7 @@ public class CartaoServiceTest {
         assertEquals(Cartao.class, response.getClass());
         assertEquals(NUM_CARTAO, response.getNumeroCartao());
         assertEquals(SENHA, response.getSenha());
-        assertEquals(0.0, response.getSaldo());
+        assertEquals(500.0, response.getSaldo());
     }
 
     @Test
@@ -69,28 +68,6 @@ public class CartaoServiceTest {
         }catch (CartaoJaExistenteException e){
             assertEquals(e.getClass(), CartaoJaExistenteException.class);
             assertEquals(e.getMessage(), "Cartão com número " + NUM_CARTAO + " já foi criado");
-        }
-    }
-
-    @Test
-    void atualizaCartaoApenasParaAcrescentarSaldoFuncionando(){
-        when(cartaoRepository.save(any())).thenReturn(cartao);
-        cartao.setSaldo(100.0);
-        Cartao response = cartaoService.atualizarCartao(NUM_CARTAO, cartao);
-        assertEquals(response.getClass(), Cartao.class);
-        assertEquals(response.getSaldo(), 100.0);
-        assertEquals(response.getSaldo().getClass(), Double.class);
-    }
-
-    @Test
-    void atualizaCartaoJogaExcecao(){
-        when(cartaoRepository.save(any())).thenThrow(EntityNotFoundException.class);
-        try{
-            cartao.setSaldo(100.0);
-            Cartao response = cartaoService.atualizarCartao(NUM_CARTAO, cartao);
-        }catch (Exception e){
-            assertEquals(e.getClass(), CartaoNaoEncontradoException.class);
-            assertEquals(e.getMessage(), "Cartão com número " + NUM_CARTAO + " não encontrado");
         }
     }
 
@@ -118,12 +95,11 @@ public class CartaoServiceTest {
     @Test
     void transacaoComSucesso(){
         when(cartaoRepository.findById(anyString())).thenReturn(cartaoOptional);
-        cartaoOptional.get().setSaldo(200.0);
         when(cartaoRepository.save(any())).thenReturn(cartaoOptional.get());
         String response = cartaoService.realizarTransacao(transacao);
         assertEquals(response, "Ok");
         assertEquals(response.getClass(), String.class);
-        assertEquals(cartaoOptional.get().getSaldo(), 100.0);
+        assertEquals(cartaoOptional.get().getSaldo(), 300.0);
     }
 
     @Test
@@ -154,7 +130,7 @@ public class CartaoServiceTest {
     @Test
     void transacaoComSaldoInsuficiente(){
         when(cartaoRepository.findById(anyString())).thenReturn(cartaoOptional);
-        cartaoOptional.get().setSaldo(40.0);
+        transacao.setValor(1000.0);
         try{
             String response = cartaoService.realizarTransacao(transacao);
         }catch (Exception e){

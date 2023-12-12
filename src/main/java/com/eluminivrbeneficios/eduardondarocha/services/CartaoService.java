@@ -20,23 +20,14 @@ public class CartaoService {
     private CartaoRepository cartaoRepository;
 
     public Cartao criar (Cartao cartao){
-        cartao.setSaldo(0.0);
+        cartao.setSaldo(500.0);
         Optional<Cartao> optionalCartao = cartaoRepository.findById(cartao.getNumeroCartao());
         optionalCartao.ifPresent(c -> {
             throw new CartaoJaExistenteException(c.getNumeroCartao());
         });
         return cartaoRepository.save(cartao);
     }
-    @Transactional
-    public Cartao atualizarCartao (String numCartao, Cartao cartao){
-        try{
-            cartao.setNumeroCartao(numCartao);
-            cartao = cartaoRepository.save(cartao);
-            return cartao;
-        }catch (EntityNotFoundException e){
-            throw new CartaoNaoEncontradoException(numCartao);
-        }
-    }
+
 
     public Double retornarSaldoDeCartaoPorNumero(String numCartao){
         Optional<Cartao> optionalCartao = cartaoRepository.findById(numCartao);
