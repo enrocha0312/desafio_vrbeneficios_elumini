@@ -8,7 +8,7 @@ Por se tratar de um projeto com apenas uma classe, optei por criar uma API monol
 
 ### Métodos de CRUD
 
-Para atender à proposta sugerida pelo desafio, acrescentei aos métodos envolvidos a operação de put, para que possa ser alterado o saldo do cartão, já que por padrão inicializei com saldo em zero. Como no post de criação do cartão não é enviado saldo, achei coerente tal inicialização como padrão. Para testes da API, portanto, alterei somente o saldo do cartão via put para que pudesse acrescentar saldo. O put foi criado utilizando o endpoint "../cartoes/{numCartao}". De resto, segui todos os padrões sugeridos para o desafio, inclusive nas respostas às requisições nos endpoints. Em relação à operação de transação, foi criado um TransacaoController, porém ressalta-se que não foi persistida em banco, utilizando por injeção o CartaoService. Faço também a observação de que optei por String para o número do cartão em vez de um número específico. Poderia ter colocado número, controlado pelas validações @Length do JPA, entre outras práticas. Ou, ainda mais específico, ter mantido string e ter colocado alguma validação em uma camada para que fosse analisado se o usuário digitou apenas números. No entanto, seria mais um tópico a consumir tempo e que não foi exatamente especificado. 
+Segui todos os padrões sugeridos para o desafio, inclusive nas respostas às requisições nos endpoints. Em relação à operação de transação, foi criado um TransacaoController, porém ressalta-se que não foi persistida em banco, utilizando por injeção o CartaoService. Faço também a observação de que optei por String para o número do cartão em vez de um número específico. Poderia ter colocado número, controlado pelas validações @Length do JPA, entre outras práticas. Ou, ainda mais específico, ter mantido string e ter colocado alguma validação em uma camada para que fosse analisado se o usuário digitou apenas números. No entanto, seria mais um tópico a consumir tempo e que não foi exatamente especificado. 
 
 ### Boas práticas que não foram implementadas
 
@@ -31,4 +31,5 @@ Para atender à proposta sugerida pelo desafio, acrescentei aos métodos envolvi
 4. Quem testa a API não pode se esquecer de antes de fazer operações de saldo, alterar o saldo via PUT.
 
 ![image](https://github.com/enrocha0312/desafio_vrbeneficios_elumini/assets/48969751/3f96f65c-ff0c-48af-b661-3c59a57e6da4)
-![image](https://github.com/enrocha0312/desafio_vrbeneficios_elumini/assets/48969751/d1bcc570-711e-444b-b6b7-e170cbc2c17c)
+![image](https://github.com/enrocha0312/desafio_vrbeneficios_elumini/assets/48969751/eda9c153-8f09-4c4b-a9db-647c65be903e)
+
