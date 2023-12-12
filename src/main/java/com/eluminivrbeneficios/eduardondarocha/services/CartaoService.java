@@ -10,6 +10,7 @@ import com.eluminivrbeneficios.eduardondarocha.repositories.CartaoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class CartaoService {
         });
         return cartaoRepository.save(cartao);
     }
-
+    @Transactional
     public Cartao atualizarCartao (String numCartao, Cartao cartao){
         try{
             cartao.setNumeroCartao(numCartao);
@@ -42,7 +43,7 @@ public class CartaoService {
         optionalCartao.orElseThrow(() -> new CartaoNaoEncontradoException(numCartao));
         return optionalCartao.get().getSaldo();
     }
-
+    @Transactional
     public String realizarTransacao(Transacao transacao){
         Optional<Cartao> optionalCartao = cartaoRepository.findById(transacao.getNumeroCartao());
         optionalCartao.orElseThrow(() -> new CartaoNaoEncontradoException(transacao.getNumeroCartao()));
