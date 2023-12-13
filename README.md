@@ -28,7 +28,6 @@ Segui todos os padrões sugeridos para o desafio, inclusive nas respostas às re
 
 3. Implementei o swagger, que é um bom auxiliar de testes, tornando desnecessário o uso de um postman por exemplo. Basta acessar "http://localhost:8096/swagger-ui/index.html". Implementei a aplicação na porta 8096 porque não é incomum a porta 8080 estar ocupada. 
 
-4. Quem testa a API não pode se esquecer de antes de fazer operações de saldo, alterar o saldo via PUT.
 
 ![image](https://github.com/enrocha0312/desafio_vrbeneficios_elumini/assets/48969751/3f96f65c-ff0c-48af-b661-3c59a57e6da4)
 ![image](https://github.com/enrocha0312/desafio_vrbeneficios_elumini/assets/48969751/eda9c153-8f09-4c4b-a9db-647c65be903e)
